@@ -200,15 +200,14 @@ class PdfTk {
      */
     static generateFdfFromJSON(data) {
 
-        const header = PdfTk.stringToBuffer(`
-            %FDF-1.2\n
-            ${String.fromCharCode(226) + String.fromCharCode(227) + String.fromCharCode(207) + String.fromCharCode(211)}\n
-            1 0 obj\n
-            <<\n
-            /FDF\n
-            <<\n
-            /Fields [\n
-        `);
+        const header = PdfTk.stringToBuffer(`%FDF-1.2
+${String.fromCharCode(226) + String.fromCharCode(227) + String.fromCharCode(207) + String.fromCharCode(211)}
+1 0 obj
+<<
+/FDF
+<<
+/Fields [
+`);
 
         let body = PdfTk.stringToBuffer('');
 
@@ -225,7 +224,7 @@ class PdfTk {
                 ]);
                 body = Buffer.concat([
                     body,
-                    PdfTk.stringToBuffer(')\n/V('),
+                    PdfTk.stringToBuffer(')\n/V ('),
                 ]);
                 body = Buffer.concat([
                     body,
@@ -238,18 +237,18 @@ class PdfTk {
             }
         }
 
-        const footer = PdfTk.stringToBuffer(`
-            ]\n
-            >>\n
-            >>\n
-            endobj \n
-            trailer\n
-            \n
-            <<\n
-            /Root 1 0 R\n
-            >>\n
-            %%EOF\n
-        `);
+        const footer = PdfTk.stringToBuffer(`]
+>>
+>>
+endobj
+trailer
+
+<<
+/Root 1 0 R
+>>
+%%EOF
+`);
+
 
         return Buffer.concat([
             header,
