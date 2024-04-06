@@ -250,13 +250,13 @@ class PdfTk {
         const buffers = [];
         let len = 0;
         len += PdfTk.stringToBuffers(buffers, `%FDF-1.2
-${String.fromCharCode(226) + String.fromCharCode(227) + String.fromCharCode(207) + String.fromCharCode(211)}
+%${String.fromCharCode(226) + String.fromCharCode(227) + String.fromCharCode(207) + String.fromCharCode(211)}
 1 0 obj
 <<
 /FDF
 <<
 /Fields [
-`);
+`, 'binary');
 
         for (const prop in data) {
             /* istanbul ignore else  */
@@ -277,7 +277,7 @@ trailer
 /Root 1 0 R
 >>
 %%EOF
-`);
+`, 'binary');
 
         return Buffer.concat(buffers, len);
 
