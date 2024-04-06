@@ -340,9 +340,19 @@ trailer
                 const result = [];
 
                 child.stderr.on('data', data => {
-                    if (!this._ignoreWarnings && data.toString().toLowerCase().includes('error')) {
-                        this._cleanUpTempFiles();
-                        return reject(data.toString('utf8'));
+                    if (!this._ignoreWarnings) {
+                        let str = data.toString();
+                        if (str.toLowerCase().includes('error')) {
+                            this._cleanUpTempFiles();
+                            try {
+                                str = data.toString('utf8');
+                            } catch (e) {
+                                // toString('utf8') can throw when toString() (above) did not...
+                                // if it does, ignore this secondary error and
+                                // reject using the string we already have.
+                            }
+                            return reject(str);
+                        }
                     }
                 });
 
